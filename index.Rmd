@@ -1,0 +1,186 @@
+---
+title:  "gravitas <br><small><small> <small> GRAnularity VIsualization for Time-series AnalySis &nbsp;"
+type: "contributed"
+author: "<br> Dr. Sayani Gupta <br> &nbsp; Monash University"
+date: <font size="5">Presentation of Di Cook Award projects <br>  Victorian Branch of the Statistical Society of Australia (SSA Vic) <br> May 17, 2022
+bgimg: "images/bg1.jpg"
+output:
+  xaringan::moon_reader:
+    after_body: ["libs/collapseoutput.js"]
+    css:
+      - ninjutsu 
+      - "assets/animate.css"
+      - "assets/monash-logo.css"
+      - "assets/monash-brand.css"
+      - "assets/monash-fonts.css"
+      - "assets/styles.css" # small improvements
+      - "assets/custom.css" # add your own CSS here!
+      - "timeline.css"
+    # [ "libs/myremark.css", "xaringan-themer.css" , "libs/font-awesome/css/fontawesome-all.css"]
+    self_contained: false
+    nature:
+      ratio: 16:9
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+preamble: >
+  \usepackage{amsmath, mathtools,amssymb, booktabs,amsthm,todonotes,colortbl}
+  \usepackage{algorithm}
+  \usepackage{algorithmicx}
+  \usetheme{Copenhagen}
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+options(htmltools.dir.version = FALSE, tibble.width = 55, tibble.print_min = 4)
+opts_chunk$set(
+  echo = FALSE, warning = FALSE, message = FALSE, comment = "#>",
+  fig.path = 'figure/', cache.path = 'cache/', fig.align = 'center', 
+  fig.width = 12, fig.show = 'hold', fig.height = 7, # 16:9
+  cache = TRUE, external = TRUE, dev = 'svglite',
+  results = "markup"
+)
+read_chunk('R/theme.R')
+read_chunk('R/main.R')
+```
+
+```{r xaringan-themer, include = FALSE, eval=FALSE}
+library(xaringanthemer)
+ solarized_dark(
+   header_font_google = google_font("Josefin Sans"),
+   text_font_google   = google_font("Montserrat", "300", "300i"),
+   code_font_google   = google_font("Droid Mono"),
+   # header_color = "#00aba9",
+   # text_color = "#2b5797"
+   # # header_color = "#00008B",
+   # text_color = "#8B4513"
+  header_color = "#ffbb33",
+  # text_color = "#FFDAB9",
+  text_color = "White",
+  background_color = "#555555",
+  #title_slide_background_color = " #D9D690"
+ )
+```
+
+
+```{r load}
+
+```
+
+
+background-image: url("figs/motivation3.png")
+
+background-position: center
+background-size: contain
+
+Takeaway messages:
+
+- .card[[Why]]
+- .card[[What]]
+- .card[[How]]
+
+
+---
+### Why? (Time series of electricity demand for multiple households)
+
+```{r load-elecnew, message = FALSE, warning=FALSE}
+```
+
+```{r elec-rawnew, out.width="90%"}
+
+```
+
+
+.center[
+.card[.smaller[fine time resolutions]]
+.card[.smaller[many measurements]]
+.card[.smaller[no behavior visible in the squeezed linear view]]  
+.card[.smaller[many households]]
+.card[.smaller[unequal length]]
+.card[.smaller[different start and end date]]
+.card[.smaller[missing observations]]
+]
+
+
+
+---
+# Why? (continued)
+
+While we were prompted by the example of the smart meters, the challenges and
+solutions presented are essentially applicable to any temporal data collected more than once a year
+
+- traffic sensors
+- pedestrian movement data in metro stations
+- public buildings, cab or bike rides
+- Temperature or precipitation collected over time.
+
+---
+
+What?
+
+- describes classes of time deconstructions using linear and cyclic time
+granularities. 
+
+- provides tools to compute possible cyclic granularities from an ordered (usually
+temporal) index
+
+- a framework to systematically explore the distribution of a univariate
+variable conditional on two cyclic time granularities
+
+---
+
+How? Breaking down the method briefly
+
+- Why we are considering probability distributions
+- harmony and clashes
+- narrow search using significant harmonies 
+
+---
+
+Breaking down the 'how()' in the package
+
+
+Example: Data Melbourne 8 households
+
+---
+
+Linear Display
+
+---
+
+Search_gran()
+
+---
+
+create_gran()
+
+---
+
+is_harmony()
+
+---
+
+harmony()
+
+---
+
+significant harmony
+
+---
+
+three pictures together (from paper)
+
+---
+
+Last picture from paper
+
+
+---
+
+About me
+
+---
+
+Questions
+
+
