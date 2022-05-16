@@ -40,21 +40,34 @@ class: center, middle, inverse, title-slide
 
 # Outline
 
+.pull-left[
+.checked[
+- .larger[Why?]  
+&lt;br&gt;
+- .larger[What?]    
+&lt;br&gt;
+- .larger[How?]  
+   _Methods, Package usage_
+]
+]
 
-- .checked[.larger[Why?]]
-- .checked[.larger[What?]]
-- .checked[.larger[How?]]
-  -  Methods
-  -  Package usage
+.pull-right[
+.animated.bounce[
+&lt;img src="images/gravitas_sticker.png" height=280px&gt;
+]
+]
 
 &lt;br&gt;
 
-_**Methodology references**_
+.footnote[
+_Methodology references_
 
-_.smaller[.smaller[.smaller[Gupta, S., Hyndman, R.J., Cook, D. and Unwin, A., 2022. Visualizing probability distributions across bivariate cyclic temporal granularities. Journal of Computational and Graphical Statistics, 31(1), pp.14-25]]]_
+.smaller[.smaller[.smaller[Gupta, S., Hyndman, R.J., Cook, D. and Unwin, A., 2022. Visualizing probability distributions across bivariate cyclic temporal granularities. Journal of Computational  
+and Graphical Statistics, 31(1), pp.14-25]]]
 
-_.smaller[.smaller[.smaller[Gupta, S., Hyndman, R.J. and Cook, D., 2021. Detecting Distributional Differences Between Temporal Granularities for Exploratory Time Series Analysis (No. 20/21). Monash University, Department of Econometrics and Business Statistics.]]]_
-
+.smaller[.smaller[.smaller[Gupta, S., Hyndman, R.J. and Cook, D., 2021. Detecting Distributional Differences Between Temporal Granularities for Exploratory Time Series Analysis (No. 20/21).  
+Monash University, Department of Econometrics and Business Statistics.]]]
+]
 ---
 # Why? 
 
@@ -76,21 +89,32 @@ _.smaller[.smaller[.smaller[Gupta, S., Hyndman, R.J. and Cook, D., 2021. Detecti
 ---
 # Why? (continued)
 
+&lt;br&gt;
+
+.center[**To provide methods to better understand patterns of these sort of large quantities of time series data that are observed more than once per year**]
+
+.footnote[.smaller[.smaller[
 Applicable to any temporal data collected more than once a year
 
-- traffic sensors
-- pedestrian movement data in metro stations
-- public buildings, cab or bike rides
-- Temperature or precipitation collected over time
+- traffic sensors, pedestrian movement data in metro stations, public buildings,
+cab or bike rides
 
 or more broadly,
 
-- data observed by years, decades, and centuries as might be astronomical data.
+-  temporal data observed by years, decades, and centuries
 
+or,
+
+- non-temporal data with a hierarchical nested ordering similar to time.
+
+]]]
 ---
 
 # What? 
 
+&lt;br&gt;
+
+&lt;br&gt;
 
 .center[Visualize and analyze **probability distributions** to explore large quantities of temporal data across different **time deconstructions** to find **underlying patterns ** in behavior.]
 
@@ -102,12 +126,15 @@ Why probability distributions? Which time deconstructions can help find underlyi
 
 .pull-left[
 
-.smaller[Which time deconstructions can help identifying patterns?  
-    **Cyclic granularities:** e.g. hour-of-day, day-of-month or  hour-of-week, day-of-semester]
+.smaller[**Which time deconstructions can help identifying patterns?**  
+
+Cyclic granularities: e.g. hour-of-day, day-of-month or  hour-of-week, day-of-semester]
     &lt;br&gt;
- .smaller[Why probability distributions?  
-   **Multiple observations** for each level of cyclic granularity  
-   **summarize distribution** of measured variables]  
+    &lt;br&gt;
+ .smaller[**Why probability distributions?**  
+ 
+   Multiple observations for each level of cyclic granularity  
+   summarize distribution of measured variables]
  
 ]
 
@@ -116,53 +143,18 @@ Why probability distributions? Which time deconstructions can help find underlyi
 ]
 
 ---
-# How? (package functions)
+# How? (methods)
 
-&lt;!-- - describes classes of time deconstructions using linear and cyclic time --&gt;
-&lt;!-- granularities.  --&gt;
-&lt;!-- - provides tools to compute possible cyclic granularities from an ordered (usually --&gt;
-&lt;!-- temporal) index --&gt;
-&lt;!-- - check the feasibility of creating plots or drawing inferences for any --&gt;
-&lt;!-- two cyclic granularities by identifying "harmonies" and "clashes" --&gt;
-&lt;!-- - refining the search to obtain "significant" harmonies to find "significant" patterns --&gt;
 .smaller[
- 
-.pull-left[
-
-### 1. Computation
---- 
-- Compute any cyclic granularity? `create_gran()`
- &lt;br&gt;
-- Exhaustive list of granularities to explore? `search_gran()`
- &lt;br&gt;
- &lt;br&gt;
- 
-### 2. Interaction
- --- 
-- Check if cyclic granularities are harmonies/clashes? `is.harmony()`
-&lt;br&gt;
-- List of harmonies to explore? `harmony()`
-&lt;br&gt;]
-
-.pull-right[
-### 3. Visualization
---- 
-- Plot harmonies? `prob_plot()`
-&lt;br&gt;
-- Sufficient observations? `gran_obs()`
-&lt;br&gt;
-- Recommendations on feasibility? `gran_advice()`
-&lt;br&gt;
-### 4. Inference
---- 
-- Select only interesting displays? `select_harmonies()`
-&lt;br&gt;
-- Rank interesting displays `rank_harmonies()`
+- describes classes of time deconstructions using linear and cyclic time
+granularities.
+- provides tools to compute possible cyclic granularities from an ordered (usually
+temporal) index
+- check the feasibility of creating plots by identifying "harmonies" and "clashes"
+- refining the search to obtain "significant" harmonies to find "significant" patterns
 ]
- 
-]
-
 ---
+
 class:left, top
 
 #  Interaction between cyclic granularities
@@ -206,6 +198,45 @@ class:left, top
 
 ---
 
+# How? (package functions)
+
+.smaller[
+ 
+.pull-left[
+
+### 1. Computation
+--- 
+- Compute any cyclic granularity? `create_gran()`
+ &lt;br&gt;
+- Exhaustive list of granularities to explore? `search_gran()`
+ &lt;br&gt;
+ &lt;br&gt;
+ 
+### 2. Interaction
+ --- 
+- Check if cyclic granularities are harmonies/clashes? `is.harmony()`
+&lt;br&gt;
+- List of harmonies to explore? `harmony()`
+&lt;br&gt;]
+
+.pull-right[
+### 3. Visualization
+--- 
+- Plot harmonies? `prob_plot()`
+&lt;br&gt;
+- Sufficient observations? `gran_obs()`
+&lt;br&gt;
+- Recommendations on feasibility? `gran_advice()`
+&lt;br&gt;
+### 4. Inference
+--- 
+- Select only interesting displays? `select_harmonies()`
+&lt;br&gt;
+- Rank interesting displays `rank_harmonies()`
+]
+ 
+]
+---
 # Melbourne households example: show me the data
 
 &lt;img src="figure/linear-scale-8new-1.svg" style="display: block; margin: auto;" /&gt;
@@ -281,7 +312,10 @@ elec %&gt;%
 .left-column[
 .checked[
 .smaller[
-something
+- Ensemble plot with a heatmap (a), line plot (b), parallel coordinate plot (c)
+- (a) and (b) display the household ids in the same order 
+- (a) shows wpd values across harmonies with significant harmony is shown with an asterisk
+- (c) compares households across harmonies.
 ]
 ]
 ]
@@ -293,9 +327,25 @@ something
 #  Melbourne households example: compare households
 
 .left-column[
+```r
+elec %&gt;%
+  filter(id == 1) %&gt;% 
+  prob_plot("day_week",
+            "hour_day",
+            response = "kwh",
+            plot_type = "quantile",
+            symmetric = TRUE,
+            quantile_prob = c(0.1, 0.25, 0.5, 0.75, 0.9), nrow = 1)
+```
 .checked[
 .smaller[
-something
+- Table suggests harmony pair (dow, hod) is significant
+for household id 7, but not for id 1.
+- For id 1, patterns look similar within different days of weekdays
+and weekends
+- For id 7 more fluctuations observed across median and 75th percentile for different hours of the day
+and day of week.
+
 ]
 ]
 ]
@@ -304,16 +354,24 @@ something
 ]
 
 ---
-# More Information
+class: center, left
+
+## More Information
 
 Package : https://github.com/Sayani07/gravitas  
 Slides : https://sayani.netlify.app/dicookaward2022
 
-### My Contact Details
+&lt;br&gt;
+
+## My Contact Details
 
 gupta.sayani@gmail.com  
+https://github.com/Sayani07  
+https://sayani.netlify.app/
 
-### Joint work with
+&lt;br&gt;
+
+## Joint work with
 
 Professor Rob J Hyndman  Professor Dianne Cook 
 

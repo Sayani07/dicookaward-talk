@@ -1,0 +1,32 @@
+---
+title: "Untitled"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Slide 1
+
+Hi everyone! Thanks SSA Victoria and the jury for this honorable mention for Dicook award. This is my first talk in person after I became a Doctor and also after Covid hit. I realize this is the end of the day for all of you and we already heard two awesome presentations and would likely want to unwind and head to dinner soon.
+
+# Slide 2
+
+So I thought I will divide my presentation into the  "why, what and how" format to not lose sight of why we are doing what we are doing. And the take away message could be the "why" and "what" if not the entire "how".
+
+The "how" will consist of two parts. For a detailed understanding of the methodology, you need to refer to a couple of papers that I wrote during my PhD. I will walk you through how the package gravitas can be used to do what we are doing.
+
+# Slide 3
+
+So when I started my PhD, I had this energy demand data from a survey consisting of 13K customers. They were recorded for every 30 minutes for around 2 years for most customers. I plot the time series of energy consumption along the y-axis against time from past to future for 50 sampled households. So each of these series correspond to a household. The time series are available at fine temporal resolution for a long period of time. Hence, there are too many measurements all squeezed in this linear
+representation. No behavioral pattern could be discerned from this view. Moreover, the data is available for many households and characterized by unequal length, different start and end dates and missing observations. We could see and possibly expect that energy consumption in households vary substantially, which is a reflection of their varied behaviors. But through this display, it is very difficult (if not impossible) to get useful insights of their behavior for even one household (let alone many households together).
+
+In most cases, electricity data will have multiple seasonal patterns like daily, weekly and annual. But we do not learn about these repetitive behaviors from the linear view. We need to consider temporal deconstructions that accomodate for repetitive behaviors. 
+
+# Slide 4
+
+
+
+
+

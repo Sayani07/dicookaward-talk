@@ -1,0 +1,267 @@
+.item50 {
+  width: 605px;
+  overflow: scroll;
+}
+
+
+.padtop0 {
+  padding-top: 0;
+}
+
+ul li ul {
+  list-style-type: square;
+}
+
+.clock {
+  font-size: 50pt;
+  width: 200px;
+  text-align: center;
+  color: black;
+  background-color: gray!important;
+  background-image: none;
+}
+
+.clock.running {
+  background-color: #8B0000!important;
+  border: 3px solid black;
+  color: white!important;
+}
+
+.scroll-300 {
+  overflow-y: scroll;
+  height: 300px;
+}
+
+.scroll-800 {
+  overflow-y: scroll;
+  height: 400px;
+}
+
+.scroll-900 {
+  overflow-y: scroll;
+  height: 550px;
+}
+
+pre {
+  text-align: left;!important
+}
+
+.custom-list ul li li li:before {
+  content: "";
+}
+
+.info-box {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+.border-right {
+  border-right: 2px solid black;
+}
+
+.circle-it {
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    padding: 8px;
+
+    background: #fff;
+    color: #666;
+    text-align: center;
+
+    font: 30px Arial, sans-serif;
+}
+
+td, th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  font-size: 24px!important;
+}
+
+tr:nth-child(even){background-color: #f2f2f2;}
+tr:hover {background-color: #ddd;}
+th {
+  background-color: #006DAE!important;
+  color: white!important;
+}
+
+
+
+.bg-orange {
+  background-color: var(--color-orange)!important;
+}
+
+.bg-blue {
+  background-color: var(--color-blue)!important;
+}
+
+
+.circle {
+    border-radius: 50%;
+    width: 50px;
+    line-height: 50px;
+    padding: 3px;
+    display:inline-block;
+
+    background: white;
+    color: #006DAE;
+    text-align: center;
+    font-weight: bold;
+
+}
+
+.circle-big {
+    border-radius: 50%;
+    width: 100px;
+    line-height: 100px;
+    padding: 3px;
+    display:inline-block;
+
+    background: white;
+    color: #006DAE;
+    text-align: center;
+    font-weight: bold;
+
+}
+
+
+
+.panelset {
+  font-size: 18pt;
+   --panel-tab-active-border-color: transparent;
+   --panel-tab-inactive-opacity: 0.5;
+   --panel-tabs-border-bottom: transparent;
+   --panel-tab-font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
+}
+
+td, th {
+  border: none!important;
+}
+
+th {
+  background-color: white!important;
+  color: black!important;
+  font-weight: 800!important;
+  border-bottom: 3px solid black!important;
+  text-align: left;
+}
+
+tr:nth-child(odd) {
+  background-color: #f2f2f2!important;
+}
+
+tr:nth-child(even) {
+  background-color: white!important;
+}
+
+table {
+  border-spacing: 0px!important;
+}
+
+.remark-code-line {
+  font-size: 14pt;
+}
+
+.panel-tab {
+  padding: 10px 10px!important;
+}
+
+.panelset .panel-tabs {
+  box-shadow: none!important;
+}
+
+ul.panel-tabs {
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+li.panel-tab {
+  margin: 0;
+  font-size: 12pt;
+}
+
+.panel-tab {
+  min-height: 0!important;
+}
+
+.s400 {
+  height:400px;
+  overflow: scroll;
+}
+
+.s500 {
+  height:500px;
+  overflow: scroll;
+}
+
+.s100 pre {
+  height:100px;
+  overflow: scroll;
+}
+
+.s200 pre {
+  height:200px;
+  overflow: scroll;
+}
+
+.s300 pre {
+  height:300px;
+  overflow: scroll;
+}
+
+.s400 pre {
+  height: 400px;
+  overflow: scroll;
+}
+
+.h100 pre:nth-child(2) {
+  height: 100px;
+  overflow: scroll;
+}
+
+.h200 pre:nth-child(2) {
+  height: 200px;
+  overflow: scroll;
+}
+
+.h250 pre:nth-child(2) {
+  height: 250px;
+  overflow: scroll;
+}
+
+.h300 pre:nth-child(2) {
+  height: 300px;
+  overflow: scroll;
+}
+
+.h350 pre:nth-child(2) {
+  height: 350px;
+  overflow: scroll;
+}
+
+.h400 pre:nth-child(2) {
+  height: 400px;
+  overflow: scroll;
+}
+
+.scroll-sign::after {
+  content: "scroll ↓";
+  position: relative;
+  left: 47%;
+}
+
+.h500 pre:nth-child(2) {
+  height: 500px;
+  overflow: scroll;
+}
+
+.footnote {
+  font-size: 12pt;
+  margin-left: -140px;
+}
+
+
+.footnote p {
+  margin-block-start: 0!important;
+}
