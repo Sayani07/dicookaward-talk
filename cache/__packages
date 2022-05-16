@@ -24,3 +24,11 @@ transformr
 distributional
 patchwork
 here
+scales
+zoo
+xts
+PerformanceAnalytics
+TTR
+quantmod
+tidyquant
+gghighlight
