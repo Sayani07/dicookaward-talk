@@ -1,6 +1,6 @@
 # dicookaward-talk
 
-My talk on R package gravitas for the Presentation of Di Cook Award projects @ Victorian Branch of the Statistical Society of Australia (SSA Vic)
+My talk on R package gravitas for the Presentation of Di Cook Award projects @ Victorian Branch of the Statistical Society of Australia (SSA Vic) on May 17, 2022.
 
 # References
 
