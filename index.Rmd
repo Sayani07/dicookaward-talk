@@ -175,17 +175,46 @@ Cyclic granularities: e.g. hour-of-day, day-of-month or  hour-of-week, day-of-se
 ```{r linear2cyclic, dev='png', interval=0.2}
 ```
 ]
-
 ---
-# How? (methods)
+
+# How? (package functions)
 
 .smaller[
-- describes classes of time deconstructions using linear and cyclic time
-granularities.
-- provides tools to compute possible cyclic granularities from an ordered (usually
-temporal) index
-- check the feasibility of creating plots by identifying "harmonies" and "clashes"
-- refining the search to obtain "significant" harmonies to find "significant" patterns
+ 
+.pull-left[
+
+### 1. Compute and search
+--- 
+- Compute any cyclic granularity? `create_gran()`
+ <br>
+- Exhaustive list of granularities to explore? `search_gran()`
+ <br>
+ 
+### 2. Interaction
+--- 
+_.smaller[refine search]_
+- Check if cyclic granularities are harmonies/clashes? `is.harmony()`
+<br>
+- List of harmonies to explore? `harmony()`
+<br>]
+
+.pull-right[
+### 3. Inference 
+--- 
+_.smaller[refine search further]_
+- Select and rank only interesting displays? `select_harmonies()`
+<br>
+
+### 4. Visualization 
+--- 
+_.smaller[investigation of interesting displays]_
+- Plot? `prob_plot()`
+<br>
+- Sufficient observations? `gran_obs()`
+<br>
+- Recommendations on feasibility? `gran_advice()`
+<br>
+]
 ]
 ---
 
@@ -209,123 +238,140 @@ class:left, top
 ]
 
 ---
+# Application: Non-temporal case
+.left-column[
+## Cricket example
+.checked[
+* data structure
+<br>
+<br>
+* Hierachy table
+```{r hierarchy2}
+```
+]
+]
+.right-column[
+```{r cricket-glimpse}
+knitr::include_graphics("images/cricket_data.png")
+```
+]
+---
 
-#  Inference
+<!-- SLIDE 9 -->
+.left-column[
+## Cricket example
+```{r cricket-load}
+
+```
+
+.checked[
+* data structure
+* search granularities `search_gran()`
+]
+]
+.right-column[
+
+```r
+cricket_tsibble <- cricket %>%
+*  mutate(data_index = row_number()) %>%
+*  as_tsibble(index = data_index)
+```
+
+```r
+* cricket_tsibble %>%
+*  search_gran(hierarchy_model, 
+*              lowest_unit = "ball",
+*               highest_unit =  "match")
+```
+.pull-left[
+```{r search_gran_cric}
+```
+]
+.pull-right[
+<br>
+<br>
+.smaller[
+- There are $^{6} P_2$ =  `r length(combn(6,2))` pair of granularities to look at
+- 30 visualizations to interpret?
+]
+]
+]
+---
 
 .left-column[
-<br>
-- Sample designs
-- Rank harmonies $a<b<c<d$
-- Gestalt theory
-- distance to compute within and between facet variation
-- define a threshold for significance
+## Cricket example
+.checked[
+* data structure
+* search granularities `search_gran()`
+* set of harmonies `harmony()`
 ]
-
+]
 .right-column[
-```{r example-design2, out.width="90%"}
-```
-]
-.smaller[
-.smaller[
-.smaller[
-**Designs:** 
-$a \gets D_{null}$, $b\gets D_{var_f}$,  $c\gets D_{var_x}$, $d \gets D_{var_{all}}$
-]
-]
-]
+```r
+cricket_tsibble %>%
+*  harmony(hierarchy_model, 
+*          lgran = "ball",
+*          ugran =  "match")
 
----
-
-# How? (package functions)
-
-.smaller[
- 
-.pull-left[
-
-### 1. Computation
---- 
-- Compute any cyclic granularity? `create_gran()`
- <br>
-- Exhaustive list of granularities to explore? `search_gran()`
- <br>
- <br>
- 
-### 2. Interaction
- --- 
-- Check if cyclic granularities are harmonies/clashes? `is.harmony()`
-<br>
-- List of harmonies to explore? `harmony()`
-<br>]
-
-.pull-right[
-### 3. Visualization
---- 
-- Plot harmonies? `prob_plot()`
-<br>
-- Sufficient observations? `gran_obs()`
-<br>
-- Recommendations on feasibility? `gran_advice()`
-<br>
-### 4. Inference
---- 
-- Select only interesting displays? `select_harmonies()`
-<br>
-- Rank interesting displays `rank_harmonies()`
-]
- 
-]
----
-# Melbourne households example: show me the data
-
-```{r linear-scale-8new}
 ```
 
-
+```{r harmony_gran_cric}
+```
+.smaller[
+- only 7 out `r length(combn(6,2))` are harmonies<br>
+- plotting other 23 pairs lead to empty combinations
+]
+]
 ---
-#  Melbourne households example: systematic search
+
+.left-column[
+## Cricket example
+.checked[
+* data structure
+* search granularities `search_gran()`
+* set of harmonies `harmony()`
+* advice `gran_advice()`
+]
+]
+.right-column[
 
 ```r
-elec %>% 
-*  search_gran(lowest_unit = "hour",
-*              highest_unit = "month", 
-*              filter_in = "wknd_wday", 
-*              filter_out = "fortnight")
+cricket_tsibble %>% 
+*  gran_advice("hierarchy_model",
+*              "over_inning", 
+*              "inning_match")
 ```
-
-```{r search-gran}
-
+<small>
+```{r gran-advice_cric, out.width="100%"}
 ```
-<br>
-
-- There are $^{7} P_2 = 42$ pairs of granularities to look at looking at two at a time.
-- 42 visualizations to interpret?
-
----
-#  Melbourne households example: harmonies
-
-```r
-elec %>% 
-*  harmony(ugran = "month",
-*       filter_in = "wknd_wday",
-*       filter_out = c("hhour", "fortnight")
-```
-
-```{r harmony}
-```
-
-.smaller[
-- only 14 out of 42 are harmonies <br>
-- plotting other 28 pairs lead to empty combinations
+</small>
+### <large>  Quantile plots recommended for the harmony pair (over_inning, inning_match) </large>
 ]
-
 ---
-#  Melbourne households example: significant harmonies
-
-```{r rank-table, out.width="60%"}
+.left-column[
+## Cricket example
+.checked[
+* data structure
+* search granularities `search_gran()`
+* set of harmonies `harmony()`
+* advice `gran_advice()`
+* visualize harmonies `prob_plot()`
+]
+]
+.right-column[
+```r
+cricket_tsibble %>% 
+filter(batting_team %in% c("Mumbai Indians",
+                           "Chennai Super Kings")) %>%
+* prob_plot("inning_match",
+*            "over_inning",
+*            response = "runs_per_over",
+*            hierarchy_model,
+*            plot_type = "lv")
 ```
-.smaller[
-- Only 2 or 3 harmony pairs out of 14 are significant for any household 
-- Significant pairs differ across households
+
+```{r visualise_cric}
+```
 ]
 ---
 #  Melbourne households example: compare households
@@ -342,38 +388,6 @@ elec %>%
 .right-column[
 ```{r, out.width="73%"}
 knitr::include_graphics("figure/tilemap-withlabel.png")
-```
-]
-
----
-#  Melbourne households example: compare households
-
-.left-column[
-```r
-elec %>%
-  filter(id == 1) %>% 
-  prob_plot("day_week",
-            "hour_day",
-            response = "kwh",
-            plot_type = "quantile",
-            symmetric = TRUE,
-            quantile_prob = c(0.1, 0.25, 0.5, 0.75, 0.9), nrow = 1)
-```
-.checked[
-.smaller[
-- Table suggests harmony pair (dow, hod) is significant
-for household id 7, but not for id 1.
-- For id 1, patterns look similar within different days of weekdays
-and weekends
-- For id 7 more fluctuations observed across median and 75th percentile for different hours of the day
-and day of week.
-
-]
-]
-]
-.right-column[
-```{r, out.width="100%"}
-knitr::include_graphics("figure/compare-household.png")
 ```
 ]
 
@@ -397,7 +411,7 @@ https://sayani.netlify.app/
 
 ## Joint work with
 
-Professor Rob J Hyndman  Professor Dianne Cook 
+Professors Dianne Cook & Rob J Hyndman
 
 
 

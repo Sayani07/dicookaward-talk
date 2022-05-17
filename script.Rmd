@@ -7,24 +7,49 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Slide 1
+# Slide 1 (~ 30 seconds)
 
-Hi everyone! Thanks SSA Victoria and the jury for this honorable mention for Dicook award. This is my first talk in person after I became a Doctor and also after Covid hit. I realize this is the end of the day for all of you and we already heard two awesome presentations and would likely want to unwind and head to dinner soon.
+Hi everyone! Thanks SSA Victoria and the jury for this honorable mention for Dicook award. This is my first talk in person after I became a Doctor and also after Covid hit. I realize this is the end of the day for all of you and we already heard two awesome presentations and would likely want to unwind and head to dinner soon, but bear with me.
 
-# Slide 2
+# Slide 2 (~ 60 seconds)
 
-So I thought I will divide my presentation into the  "why, what and how" format to not lose sight of why we are doing what we are doing. And the take away message could be the "why" and "what" if not the entire "how".
+So I thought to keep it precise, I will divide my presentation into the  "why, what and how" format to not lose sight of why we are doing what we are doing. And the take away message could be the "why" and "what" if not the entire "how".
 
-The "how" will consist of two parts. For a detailed understanding of the methodology, you need to refer to a couple of papers that I wrote during my PhD. I will walk you through how the package gravitas can be used to do what we are doing.
+The "how" will consist of two parts. For a detailed understanding of the methodology, you could refer to a couple of papers that I wrote during my PhD. I will walk you through how the package gravitas can be used to do what we are doing.
 
-# Slide 3
+# Slide 3 (~ 60 seconds)
 
-So when I started my PhD, I had this energy demand data from a survey consisting of 13K customers. They were recorded for every 30 minutes for around 2 years for most customers. I plot the time series of energy consumption along the y-axis against time from past to future for 50 sampled households. So each of these series correspond to a household. The time series are available at fine temporal resolution for a long period of time. Hence, there are too many measurements all squeezed in this linear
-representation. No behavioral pattern could be discerned from this view. Moreover, the data is available for many households and characterized by unequal length, different start and end dates and missing observations. We could see and possibly expect that energy consumption in households vary substantially, which is a reflection of their varied behaviors. But through this display, it is very difficult (if not impossible) to get useful insights of their behavior for even one household (let alone many households together).
+To understand the Why part of the work, let's look at the energy demand data that's recorded for every 30 minutes for around 2 years for many customers. I plot the time series of energy consumption 50 sampled households along the y-axis against time from past to present. So each of these series correspond to one household. The time series are available at fine temporal resolution for a long period of time. Hence, there are too many measurements. Moreover, the data is characterized by unequal length, different start and end dates and missing observations.
 
-In most cases, electricity data will have multiple seasonal patterns like daily, weekly and annual. But we do not learn about these repetitive behaviors from the linear view. We need to consider temporal deconstructions that accomodate for repetitive behaviors. 
+In most cases you would expect that, electricity data will have multiple seasonal patterns like daily, weekly and annual. But through this linear representation of time, it is very difficult (if not impossible) to get useful insights of their repetitive behavior for even one household (let alone many households together).  
 
-# Slide 4
+But it is important for energy companies to understand these behaviors to improve energy efficiency. Moreover, it would be beneficial to understand all possible repetitive behavior to have multiple perspectives on the observed data and be able to customize to individual or groups of similar behavior.
+
+# Slide 4 (~ 40 seconds)
+
+So this problem is important because it would be useful to have methods to better understand patterns of these sort of large quantities of time series data that are observed more than once per year.
+
+I give some other examples here where this work could potentially be useful as well like analyzing bike rides or pedestrian movement. Moreover, understanding behavior across non-temporal data with a nested ordering similar to time.
+
+# Slide 5 (~ 30 seconds)
+
+So now that we know why this work is important, lets look at what we did to address it? We decided to visualize probability distributions of these univariate time series to explore large quantities of temporal data across different time deconstructions to find underlying patterns in behavior.
+
+# Slide 6 (~ 90 seconds) 310 seconds
+
+So there are two parts to it - which temporal deconstructions can help us understand repetitive behavior and why do we consider probability distributions.
+As opposed to linear granularities, where time is arranged in a linear way from past to present, we considered cyclic granularities like hour of the day or day of the week be used to explore repetitive behavior in the data. These granularities can be considered to be categorical variables (ordered or unordered) which induces a grouping of the observations, that is, going from linear to cyclic granularities we have a scenario where we have multiple observations for each category.This could be observed from the bottom plot here where each hour of the day corresponds to multiple observations as opposed to the first plot where each time point corresponds to one observation. Hence, we decided to look at the distribution for each category. Additionally, when using probability distributions, data does not have to be the same length or observed during the exact same time period (unless there is a structural pattern).
+
+
+# Slide 7 (~ 60 seconds)
+
+Good the next 10 minutes can be spent talking about the "how". So these are the pointers on how we approached to do it. First we made sure we can compute any cyclic granularities. Because they are not limited to hour-of-day or day-of-week for some applications it can be week-of-month, half-hour-of-day and so on and so forth. Next, we have to make sure that what is the list of cyclic granularties I have that I need to explore. That would be too many for most application, but thankfully not all of them are not compatible with each other (clashes). Even when they are compatible, they could be boring as in no interesting patterns are there. So we can refine the search further. Finally, we will be left with some potential granularities which could be plotted and investigated further like seeing if theres enough observation to compute distribution, correct choice of distribution plots and so on and so forth.
+
+
+
+
+
+
 
 
 

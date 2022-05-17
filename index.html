@@ -6,6 +6,8 @@
     <meta name="author" content="  Dr. Sayani Gupta     Monash University" />
     <script src="index_files/header-attrs/header-attrs.js"></script>
     <link href="index_files/remark-css/ninjutsu.css" rel="stylesheet" />
+    <script src="index_files/kePrint/kePrint.js"></script>
+    <link href="index_files/lightable/lightable.css" rel="stylesheet" />
     <link rel="stylesheet" href="assets/animate.css" type="text/css" />
     <link rel="stylesheet" href="assets/monash-logo.css" type="text/css" />
     <link rel="stylesheet" href="assets/monash-brand.css" type="text/css" />
@@ -141,17 +143,46 @@ Cyclic granularities: e.g. hour-of-day, day-of-month or  hour-of-week, day-of-se
 .pull-right[
 &lt;img src="figure/linear2cyclic-1.png" style="display: block; margin: auto;" /&gt;&lt;img src="figure/linear2cyclic-2.png" style="display: block; margin: auto;" /&gt;
 ]
-
 ---
-# How? (methods)
+
+# How? (package functions)
 
 .smaller[
-- describes classes of time deconstructions using linear and cyclic time
-granularities.
-- provides tools to compute possible cyclic granularities from an ordered (usually
-temporal) index
-- check the feasibility of creating plots by identifying "harmonies" and "clashes"
-- refining the search to obtain "significant" harmonies to find "significant" patterns
+ 
+.pull-left[
+
+### 1. Compute and search
+--- 
+- Compute any cyclic granularity? `create_gran()`
+ &lt;br&gt;
+- Exhaustive list of granularities to explore? `search_gran()`
+ &lt;br&gt;
+ 
+### 2. Interaction
+--- 
+_.smaller[refine search]_
+- Check if cyclic granularities are harmonies/clashes? `is.harmony()`
+&lt;br&gt;
+- List of harmonies to explore? `harmony()`
+&lt;br&gt;]
+
+.pull-right[
+### 3. Inference 
+--- 
+_.smaller[refine search further]_
+- Select and rank only interesting displays? `select_harmonies()`
+&lt;br&gt;
+
+### 4. Visualization 
+--- 
+_.smaller[investigation of interesting displays]_
+- Plot? `prob_plot()`
+&lt;br&gt;
+- Sufficient observations? `gran_obs()`
+&lt;br&gt;
+- Recommendations on feasibility? `gran_advice()`
+&lt;br&gt;
+]
 ]
 ---
 
@@ -172,140 +203,255 @@ class:left, top
 ]
 
 ---
+# Application: Non-temporal case
+.left-column[
+## Cricket example
+.checked[
+* data structure
+&lt;br&gt;
+&lt;br&gt;
+* Hierachy table
 
-#  Inference
+```
+#&gt; # A tibble: 4 × 2
+#&gt;   G          P
+#&gt;   &lt;chr&gt;  &lt;dbl&gt;
+#&gt; 1 ball       6
+#&gt; 2 over      20
+#&gt; 3 inning     2
+#&gt; 4 match      1
+```
+]
+]
+.right-column[
+&lt;img src="images/cricket_data.png" style="display: block; margin: auto;" /&gt;
+]
+---
+
+&lt;!-- SLIDE 9 --&gt;
+.left-column[
+## Cricket example
+
+
+.checked[
+* data structure
+* search granularities `search_gran()`
+]
+]
+.right-column[
+
+```r
+cricket_tsibble &lt;- cricket %&gt;%
+*  mutate(data_index = row_number()) %&gt;%
+*  as_tsibble(index = data_index)
+```
+
+```r
+* cricket_tsibble %&gt;%
+*  search_gran(hierarchy_model, 
+*              lowest_unit = "ball",
+*               highest_unit =  "match")
+```
+.pull-left[
+&lt;table class="table" style="font-size: 20px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;background-color: #C0C0C0 !important;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:left;background-color: #C0C0C0 !important;"&gt; x &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; ball_over &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; ball_inning &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; ball_match &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; over_inning &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; over_match &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; inning_match &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+.pull-right[
+&lt;br&gt;
+&lt;br&gt;
+.smaller[
+- There are `\(^{6} P_2\)` =  30 pair of granularities to look at
+- 30 visualizations to interpret?
+]
+]
+]
+---
 
 .left-column[
-&lt;br&gt;
-- Sample designs
-- Rank harmonies `\(a&lt;b&lt;c&lt;d\)`
-- Gestalt theory
-- distance to compute within and between facet variation
-- define a threshold for significance
+## Cricket example
+.checked[
+* data structure
+* search granularities `search_gran()`
+* set of harmonies `harmony()`
 ]
-
+]
 .right-column[
-&lt;img src="figs/example-design.png" width="90%" style="display: block; margin: auto;" /&gt;
-]
-.smaller[
-.smaller[
-.smaller[
-**Designs:** 
-`\(a \gets D_{null}\)`, `\(b\gets D_{var_f}\)`,  `\(c\gets D_{var_x}\)`, `\(d \gets D_{var_{all}}\)`
-]
-]
-]
+```r
+cricket_tsibble %&gt;%
+*  harmony(hierarchy_model, 
+*          lgran = "ball",
+*          ugran =  "match")
 
+```
+
+&lt;table class="table table-striped" style="font-size: 20px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;background-color: #C0C0C0 !important;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:left;background-color: #C0C0C0 !important;"&gt; facet_variable &lt;/th&gt;
+   &lt;th style="text-align:left;background-color: #C0C0C0 !important;"&gt; x_variable &lt;/th&gt;
+   &lt;th style="text-align:right;background-color: #C0C0C0 !important;"&gt; facet_levels &lt;/th&gt;
+   &lt;th style="text-align:right;background-color: #C0C0C0 !important;"&gt; x_levels &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; over_inning &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; ball_over &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: White !important;"&gt; 20 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: White !important;"&gt; 6 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; inning_match &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; ball_over &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: White !important;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: White !important;"&gt; 6 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; ball_over &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; over_inning &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: White !important;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: White !important;"&gt; 20 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; inning_match &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; over_inning &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: White !important;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: White !important;"&gt; 20 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; ball_over &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; over_match &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: White !important;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: White !important;"&gt; 40 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; ball_over &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; inning_match &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: White !important;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: White !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; over_inning &lt;/td&gt;
+   &lt;td style="text-align:left;background-color: White !important;"&gt; inning_match &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: White !important;"&gt; 20 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: White !important;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+.smaller[
+- only 7 out 30 are harmonies&lt;br&gt;
+- plotting other 23 pairs lead to empty combinations
+]
+]
 ---
 
-# How? (package functions)
-
-.smaller[
- 
-.pull-left[
-
-### 1. Computation
---- 
-- Compute any cyclic granularity? `create_gran()`
- &lt;br&gt;
-- Exhaustive list of granularities to explore? `search_gran()`
- &lt;br&gt;
- &lt;br&gt;
- 
-### 2. Interaction
- --- 
-- Check if cyclic granularities are harmonies/clashes? `is.harmony()`
-&lt;br&gt;
-- List of harmonies to explore? `harmony()`
-&lt;br&gt;]
-
-.pull-right[
-### 3. Visualization
---- 
-- Plot harmonies? `prob_plot()`
-&lt;br&gt;
-- Sufficient observations? `gran_obs()`
-&lt;br&gt;
-- Recommendations on feasibility? `gran_advice()`
-&lt;br&gt;
-### 4. Inference
---- 
-- Select only interesting displays? `select_harmonies()`
-&lt;br&gt;
-- Rank interesting displays `rank_harmonies()`
+.left-column[
+## Cricket example
+.checked[
+* data structure
+* search granularities `search_gran()`
+* set of harmonies `harmony()`
+* advice `gran_advice()`
 ]
- 
 ]
----
-# Melbourne households example: show me the data
-
-&lt;img src="figure/linear-scale-8new-1.svg" style="display: block; margin: auto;" /&gt;
-
-
----
-#  Melbourne households example: systematic search
+.right-column[
 
 ```r
-elec %&gt;% 
-*  search_gran(lowest_unit = "hour",
-*              highest_unit = "month", 
-*              filter_in = "wknd_wday", 
-*              filter_out = "fortnight")
+cricket_tsibble %&gt;% 
+*  gran_advice("hierarchy_model",
+*              "over_inning", 
+*              "inning_match")
 ```
-
-
-```
-#&gt; [1] "hour_day"   "hour_week"  "hour_month" "day_week"   "day_month" 
-#&gt; [6] "week_month" "wknd_wday"
-```
-&lt;br&gt;
-
-- There are `\(^{7} P_2 = 42\)` pairs of granularities to look at looking at two at a time.
-- 42 visualizations to interpret?
-
----
-#  Melbourne households example: harmonies
-
-```r
-elec %&gt;% 
-*  harmony(ugran = "month",
-*       filter_in = "wknd_wday",
-*       filter_out = c("hhour", "fortnight")
-```
-
+&lt;small&gt;
 
 ```
-#&gt; # A tibble: 14 × 4
-#&gt;    facet_variable x_variable facet_levels x_levels
-#&gt;    &lt;chr&gt;          &lt;chr&gt;             &lt;int&gt;    &lt;int&gt;
-#&gt;  1 day_week       hour_day              7       24
-#&gt;  2 day_month      hour_day             31       24
-#&gt;  3 week_month     hour_day              5       24
-#&gt;  4 wknd_wday      hour_day              2       24
-#&gt;  5 hour_day       day_week             24        7
-#&gt;  6 week_month     day_week              5        7
-#&gt;  7 hour_day       day_month            24       31
-#&gt;  8 wknd_wday      day_month             2       31
-#&gt;  9 hour_day       week_month           24        5
-#&gt; 10 day_week       week_month            7        5
-#&gt; 11 wknd_wday      week_month            2        5
-#&gt; 12 hour_day       wknd_wday            24        2
-#&gt; 13 day_month      wknd_wday            31        2
-#&gt; 14 week_month     wknd_wday             5        2
+#&gt; The chosen granularities are harmonies 
+#&gt;  
+#&gt; Recommended plots are: ridge violin lv quantile boxplot 
+#&gt;  
+#&gt; Number of observations are homogenous across facets 
+#&gt;  
+#&gt; Number of observations are homogenous within facets 
+#&gt;  
+#&gt; Cross tabulation of granularities : 
+#&gt;  
+#&gt; # A tibble: 2 × 21
+#&gt;   inning_match   `1`   `2`   `3`   `4`   `5`   `6`
+#&gt;   &lt;fct&gt;        &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+#&gt; 1 1              216   216   216   216   216   216
+#&gt; 2 2              216   216   216   216   216   216
+#&gt; # … with 14 more variables: `7` &lt;int&gt;, `8` &lt;int&gt;,
+#&gt; #   `9` &lt;int&gt;, `10` &lt;int&gt;, `11` &lt;int&gt;, `12` &lt;int&gt;,
+#&gt; #   `13` &lt;int&gt;, `14` &lt;int&gt;, `15` &lt;int&gt;, `16` &lt;int&gt;,
+#&gt; #   `17` &lt;int&gt;, `18` &lt;int&gt;, `19` &lt;int&gt;, `20` &lt;int&gt;
 ```
-
-.smaller[
-- only 14 out of 42 are harmonies &lt;br&gt;
-- plotting other 28 pairs lead to empty combinations
+&lt;/small&gt;
+### &lt;large&gt;  Quantile plots recommended for the harmony pair (over_inning, inning_match) &lt;/large&gt;
 ]
-
 ---
-#  Melbourne households example: significant harmonies
+.left-column[
+## Cricket example
+.checked[
+* data structure
+* search granularities `search_gran()`
+* set of harmonies `harmony()`
+* advice `gran_advice()`
+* visualize harmonies `prob_plot()`
+]
+]
+.right-column[
+```r
+cricket_tsibble %&gt;% 
+filter(batting_team %in% c("Mumbai Indians",
+                           "Chennai Super Kings")) %&gt;%
+* prob_plot("inning_match",
+*            "over_inning",
+*            response = "runs_per_over",
+*            hierarchy_model,
+*            plot_type = "lv")
+```
 
-&lt;img src="figs/rank-table2.png" width="60%" style="display: block; margin: auto;" /&gt;
-.smaller[
-- Only 2 or 3 harmony pairs out of 14 are significant for any household 
-- Significant pairs differ across households
+&lt;img src="figure/visualise_cric-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 ---
 #  Melbourne households example: compare households
@@ -321,36 +467,6 @@ elec %&gt;%
 ]
 .right-column[
 &lt;img src="figure/tilemap-withlabel.png" width="73%" style="display: block; margin: auto;" /&gt;
-]
-
----
-#  Melbourne households example: compare households
-
-.left-column[
-```r
-elec %&gt;%
-  filter(id == 1) %&gt;% 
-  prob_plot("day_week",
-            "hour_day",
-            response = "kwh",
-            plot_type = "quantile",
-            symmetric = TRUE,
-            quantile_prob = c(0.1, 0.25, 0.5, 0.75, 0.9), nrow = 1)
-```
-.checked[
-.smaller[
-- Table suggests harmony pair (dow, hod) is significant
-for household id 7, but not for id 1.
-- For id 1, patterns look similar within different days of weekdays
-and weekends
-- For id 7 more fluctuations observed across median and 75th percentile for different hours of the day
-and day of week.
-
-]
-]
-]
-.right-column[
-&lt;img src="figure/compare-household.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -373,7 +489,7 @@ https://sayani.netlify.app/
 
 ## Joint work with
 
-Professor Rob J Hyndman  Professor Dianne Cook 
+Professors Dianne Cook &amp; Rob J Hyndman
 
 
 

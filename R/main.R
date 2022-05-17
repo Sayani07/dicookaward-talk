@@ -1389,3 +1389,79 @@ p_cal_elec <- elec %>%
   theme(legend.position = "bottom")
 prettify(p_cal_elec, size = 2.5, label.padding = unit(0.1, "lines"))
 
+##----cricket-load
+
+cricket <- read_rds("data/cricket_tsibble.rds")%>%  
+  select(season, 
+         match_id,
+         inning,
+         over,
+         ball,
+         winner,
+         total_runs,
+         everything())
+
+cricket_tsibble <- gravitas::cricket %>%
+  mutate(data_index = row_number()) %>%
+  as_tsibble(index = data_index)
+
+hierarchy_model <- tibble::tibble(
+  units = c("ball", "over", "inning", "match"),
+  convert_fct = c(6, 20, 2, 1)
+)
+
+
+
+##----hierarchy2
+library(gravitas)
+library(tibble)
+tibble::tibble(
+  G = c("ball", "over", "inning", "match"),
+  P = c(6, 20, 2, 1)
+)
+#knitr::kable(hierarchy_model, format = "html")
+
+##----search_gran_cric
+search_gran <- cricket_tsibble %>%
+  search_gran(hierarchy_model, lowest_unit = "ball", highest_unit =  "match")
+
+knitr::kable(search_gran, row.names = TRUE) %>% 
+  kable_styling(font_size = 20)%>% 
+  row_spec(0, background = 	"#C0C0C0") %>% 
+  row_spec(1:6, background = "White") 
+
+##----harmony_gran_cric
+
+harmony_cric <- cricket_tsibble %>%
+  harmony(hierarchy_model, 
+          lgran = "ball",
+          ugran =  "match")
+
+knitr::kable(harmony_cric, row.names = TRUE) %>% 
+  kable_styling(font_size = 20, fixed_thead = F,"striped") %>% 
+  row_spec(0, background = 	"#C0C0C0") %>% 
+  row_spec(1:7, background = "White") 
+# FFE4E1"
+
+##----gran-advice_cric
+
+cricket_tsibble %>% 
+  gran_advice("over_inning", 
+              "inning_match",
+              hierarchy_model)
+##----visualise_cric
+cricket_tsibble %>%
+  filter(batting_team %in% c(
+    "Mumbai Indians",
+    "Chennai Super Kings")) %>%
+  mutate(inning = paste0("innings: ", inning)) %>% 
+  prob_plot("inning",
+            "over",
+            response = "runs_per_over",
+            hierarchy_model,
+            plot_type = "lv") +
+  ggtitle("") +
+  scale_fill_brewer(type = "seq", palette = "Blues", direction = -1)+
+  scale_x_discrete(breaks = seq(1, 20, 2)) +
+  theme_remark()
+
