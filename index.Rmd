@@ -5,7 +5,7 @@ author:
 date: "17th May 2022"
 email: "gupta.sayani@gmail.com"
 twitter: "SayaniGupta07"
-pdflink: ""
+pdflink: "https://gravitas-dicookaward.netlify.app/"
 bgimg: "images/grey-yellow.png"
 output:
   xaringan::moon_reader:
@@ -406,7 +406,7 @@ class: center, left
 ## More Information
 
 Package : https://github.com/Sayani07/gravitas  
-Slides : https://sayani.netlify.app/dicookaward2022
+Slides : https://gravitas-dicookaward.netlify.app/
 
 <br>
 
