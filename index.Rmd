@@ -1,9 +1,12 @@
 ---
-title:  "gravitas <br><small><small> <small> GRAnularity VIsualization for Time-series AnalySis &nbsp;"
-type: "contributed"
-author: "<br> Dr. Sayani Gupta <br> &nbsp; Monash University"
-date: <font size="5">Presentation of Di Cook Award projects <br>  Victorian Branch of the Statistical Society of Australia (SSA Vic) <br> May 17, 2022
-bgimg: "images/bg1.jpg"
+title: "gravitas: GRAnularity VIsualization for Time-series AnalySis"
+subtitle: "Dr. Sayani Gupta <br> Monash University"
+author: 
+date: "17th May 2022"
+email: "gupta.sayani@gmail.com"
+twitter: "SayaniGupta07"
+pdflink: ""
+bgimg: "images/grey-yellow.png"
 output:
   xaringan::moon_reader:
     after_body: ["libs/collapseoutput.js"]
@@ -63,6 +66,12 @@ library(xaringanthemer)
  )
 ```
 
+
+
+```{r titleslide, child="components/titleslide.Rmd"}
+```
+
+---
 
 ```{r load}
 

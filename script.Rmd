@@ -19,7 +19,7 @@ The "how" will consist of two parts. For a detailed understanding of the methodo
 
 # Slide 3 (~ 60 seconds)
 
-To understand the Why part of the work, let's look at the energy demand data that's recorded for every 30 minutes for around 2 years for many customers. I plot the time series of energy consumption 50 sampled households along the y-axis against time from past to present. So each of these series correspond to one household. The time series are available at fine temporal resolution for a long period of time. Hence, there are too many measurements. Moreover, the data is characterized by unequal length, different start and end dates and missing observations.
+To understand the Why part of the work, let's look at the energy demand data that's recorded for every 30 minutes for around 2 years for many customers. I plot the time series of energy consumption of 50 sampled households along the y-axis against time from past to present. So each of these series correspond to one household. The time series are available at fine temporal resolution for a long period of time. Hence, there are too many measurements. Moreover, the data is characterized by unequal length, different start and end dates and missing observations.
 
 In most cases you would expect that, electricity data will have multiple seasonal patterns like daily, weekly and annual. But through this linear representation of time, it is very difficult (if not impossible) to get useful insights of their repetitive behavior for even one household (let alone many households together).  
 
@@ -38,20 +38,60 @@ So now that we know why this work is important, lets look at what we did to addr
 # Slide 6 (~ 90 seconds) 310 seconds
 
 So there are two parts to it - which temporal deconstructions can help us understand repetitive behavior and why do we consider probability distributions.
-As opposed to linear granularities, where time is arranged in a linear way from past to present, we considered cyclic granularities like hour of the day or day of the week be used to explore repetitive behavior in the data. These granularities can be considered to be categorical variables (ordered or unordered) which induces a grouping of the observations, that is, going from linear to cyclic granularities we have a scenario where we have multiple observations for each category.This could be observed from the bottom plot here where each hour of the day corresponds to multiple observations as opposed to the first plot where each time point corresponds to one observation. Hence, we decided to look at the distribution for each category. Additionally, when using probability distributions, data does not have to be the same length or observed during the exact same time period (unless there is a structural pattern).
+As opposed to linear granularities, where time is arranged in a linear way from past to present, we considered cyclic granularities like hour of the day or day of the week be used to explore repetitive behavior in the data. These granularities can be considered to be categorical variables (ordered or unordered) which induces a grouping of the observations, that is, going from linear to cyclic granularities we have a scenario where we have multiple observations for each category. This could be observed from the bottom plot here where each hour of the day corresponds to multiple observations as opposed to the first plot where each time point corresponds to one observation. Hence, we decided to look at the distribution for each category. Additionally, when using probability distributions, data does not have to be the same length or observed during the exact same time period (unless there is a structural pattern).
 
 
 # Slide 7 (~ 60 seconds)
 
 Good the next 10 minutes can be spent talking about the "how". So these are the pointers on how we approached to do it. First we made sure we can compute any cyclic granularities. Because they are not limited to hour-of-day or day-of-week for some applications it can be week-of-month, half-hour-of-day and so on and so forth. Next, we have to make sure that what is the list of cyclic granularties I have that I need to explore. That would be too many for most application, but thankfully not all of them are not compatible with each other (clashes). Even when they are compatible, they could be boring as in no interesting patterns are there. So we can refine the search further. Finally, we will be left with some potential granularities which could be plotted and investigated further like seeing if theres enough observation to compute distribution, correct choice of distribution plots and so on and so forth.
 
+So my package gravitas has functions which try to address each of these aspects of visualization. First, it lets us assess all granularities at our disposal, compute them, screen the harmonies, check if observations are sufficient for plotting distributions and creates a recommended plot based on number of levels and mappings.
+
+# Slide 8 (~)
 
 
+Now, to start with not all pairs are compatible with each other for exploration. Take the first one as an example,here facets show month of the year and x-axis show day of the year - we are unable to compare the distribution across facets because many of their combinations are missing. This is also intuitive because the first day of the month can never be the 2nd or 3rd day of the year. These pairs which lead to structurally empty combinations are called clashes. The pairs that are compatible with each other  are called harmonies. For the second plot, every day of the week corresponds to every month of the year and vice versa.
 
 
+# Slide 9 (~)
+
+The methods could be used for temporal and non-temporal data sets, which have a nested hierarchical structure. 
+Just to make it a bit more fun, I use the non-temporal case study here. The IPL ball-by-ball data is provided in the cricket data set in the gravitas package for a sample of 214 matches spanning 9 seasons (2008 to 2016).
+Cricket is played with two teams of 11 players each, with each team taking turns batting and fielding. This is similar to baseball, wherein the batsman and bowler in cricket are analogous to a batter and pitcher in baseball. Cricket is played in various formats and Twenty20 cricket (T20) is a shortened format, where the two teams have a single innings each, which is restricted to a maximum of 20 overs. An over will consist of 6 balls (with some exceptions). A single match will consist of 2 innings and a season  consists of several matches. Although there is no conventional time component in cricket, each
+ball can be thought to represent an ordering over the course of the game. Then, we can conceive a hierarchy where the ball is nested within overs, overs nested within innings, innings within matches, and matches within seasons.
 
 
+# Slide 10 (~)
+
+Let's see given this hierarchy, what are the cyclic granularities we can play with starting from ball to match. There are 6 and if we want to plot two granularities together, we will have 30 possibilites. 
 
 
+# Slide 11 (~)
+
+Using the function harmony(), we find that there are only 7 that we can look at.
+
+# Slide 12 (~)
+
+For each of these harmonies, gran_advice provides recommendation on the combination of cyclic granularities to be drawn and information on if they are clashes, if number of observations are enough and homogeneity and heterogeneity across facets.
+
+# Slide 13 (~)
+
+The harmonies can be plotted using prob_plot to further investigate the patterns.
+It can be observed that for the team batting in the first innings there is an upward trend of runs per over, while there is no clear upward trend in the median and quartile deviation of runs for the team batting in the second innings after the first few overs. This suggests that players feel mounting pressure to score more runs as they approach the end of the first innings, while teams batting second have a set target in mind and are not subjected to such mounting pressure and therefore may adopt a more conservative run-scoring strategy. You can find other examples in the paper.
+
+# Slide 14 (~)
+
+To summarize the benefits of using these methods, I go back to the energy data. I have plotted the energy demand data for 8 households. (b) represents the linear view from where we can understand there are some repetitive patterns, but don't know which ones they are, which ones are the interesting ones and how to rank the interesting ones. 
+Each block in (a) with several tiles, represent harmonies and clashes and the color represent the extent to which they are important. Those with * correspond to wpd values above wpdthreshold95. 
+
+
+<!-- But they have significant patterns across same harmony pairs. This is pretty useful to have without having to zoom in at the linear display and finding patterns. Patterns look different for id 5, but the heat map gives us extra information that this household has very sporadic energy behavior in the sense that it always changes and behavior is not significantly repetitive across any harmonies. -->
+
+id7 and i78 vary in total consumption as could be seen from the scales of the graph. But they have significant patterns across same harmony pairs. This is pretty useful to have without having to zoom in at the linear display and finding patterns. Patterns look different for id 5, but the heat map gives us extra information that this household has very sporadic energy behavior in the sense that it always changes and behavior is not significantly repetitive across any harmonies.
+
+
+# Slide 15 (~)
+
+You can know more about the package from the Github repo. Thank for you listening. This is Sayani Gupta, you can contact me through mail, github or my website and look at the developmental work on this package on Github. This is a joint work with Rob and Di, which were my thesis supervisors. Thank you and now I am happy to discuss any questions or suggestions you might have.
 
 
